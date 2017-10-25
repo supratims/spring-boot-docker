@@ -1,0 +1,10 @@
+https://spring.io/guides/gs/spring-boot-docker/
+
+You can build a tagged docker image using
+./gradlew build buildDocker
+
+Run docker container
+
+docker run -p 8080:8080 -t springio/gs-spring-boot-docker
+
+

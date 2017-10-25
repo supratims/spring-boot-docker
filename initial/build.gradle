@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.4.RELEASE")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
 
@@ -11,6 +12,9 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
+
+group = 'springio'
 
 jar {
     baseName = 'gs-spring-boot-docker'
@@ -29,3 +33,13 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
+task buildDocker(type: Docker, dependsOn: build) {
+  applicationName = jar.baseName
+  dockerfile = file('Dockerfile')
+  doFirst {
+    copy {
+      from jar
+      into "${stageDir}/target"
+    }
+  }
+}
